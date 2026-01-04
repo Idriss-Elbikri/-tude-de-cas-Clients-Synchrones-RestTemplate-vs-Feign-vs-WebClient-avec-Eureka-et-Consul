@@ -16,7 +16,7 @@ public class CarController {
 
         Thread.sleep(20);
 
-        return new Car(10L, "Toyota", "Yaris", clientId);
+        return new Car(10L, "Ford", "Fiesta", clientId);
     }
 }
 

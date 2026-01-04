@@ -1,6 +1,6 @@
 package com.example.service_client.controller;
 
-import com.example.service_client.client.CarFeignClient;
+import com.example.service_client.client.CarClient;
 import com.example.service_client.dto.Car;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -11,18 +11,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class ClientController {
 
     private final RestTemplate restTemplate;
-    private final CarFeignClient feignClient;
+    private final CarClient feignClient;
     private final WebClient.Builder webClientBuilder;
 
     public ClientController(RestTemplate restTemplate,
-                            CarFeignClient feignClient,
+                            CarClient feignClient,
                             WebClient.Builder webClientBuilder) {
         this.restTemplate = restTemplate;
         this.feignClient = feignClient;
         this.webClientBuilder = webClientBuilder;
     }
 
-    // RESTTEMPLATE
     @GetMapping("/{id}/car/rest")
     public Car getCarRest(@PathVariable Long id) {
         return restTemplate.getForObject(
@@ -31,13 +30,11 @@ public class ClientController {
         );
     }
 
-    // FEIGN
     @GetMapping("/{id}/car/feign")
     public Car getCarFeign(@PathVariable Long id) {
         return feignClient.getCarByClient(id);
     }
 
-    // WEBCLIENT (sync)
     @GetMapping("/{id}/car/webclient")
     public Car getCarWebClient(@PathVariable Long id) {
         return webClientBuilder.build()
